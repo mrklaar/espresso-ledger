@@ -28,6 +28,20 @@ export default function NewShot() {
     });
   }
 
+  function step(field, delta, min = -Infinity, max = Infinity) {
+    setForm((prev) => {
+      const next = { ...prev };
+      const val = Math.min(max, Math.max(min, Number(prev[field]) + delta));
+      next[field] = Math.round(val * 10) / 10;
+      if (field === 'dose' || field === 'yield') {
+        const dose = field === 'dose' ? next.dose : Number(prev.dose);
+        const yieldVal = field === 'yield' ? next.yield : Number(prev.yield);
+        next.brewRatio = dose > 0 ? `1:${(yieldVal / dose).toFixed(1)}` : '';
+      }
+      return next;
+    });
+  }
+
   function set(field, value) {
     setForm((prev) => {
       const next = { ...prev, [field]: value };
@@ -117,11 +131,19 @@ export default function NewShot() {
           <div className="form-grid">
             <div className="form-group">
               <label>Dose (g)</label>
-              <input type="number" step="0.1" min="0" value={form.dose} onChange={(e) => set('dose', e.target.value)} />
+              <div className="step-input">
+                <button type="button" className="step-btn" onClick={() => step('dose', -0.5, 0)}>−</button>
+                <input type="number" step="0.5" min="0" value={form.dose} onChange={(e) => set('dose', e.target.value)} />
+                <button type="button" className="step-btn" onClick={() => step('dose', 0.5, 0)}>+</button>
+              </div>
             </div>
             <div className="form-group">
               <label>Yield (g)</label>
-              <input type="number" step="0.1" min="0" value={form.yield} onChange={(e) => set('yield', e.target.value)} />
+              <div className="step-input">
+                <button type="button" className="step-btn" onClick={() => step('yield', -0.5, 0)}>−</button>
+                <input type="number" step="0.5" min="0" value={form.yield} onChange={(e) => set('yield', e.target.value)} />
+                <button type="button" className="step-btn" onClick={() => step('yield', 0.5, 0)}>+</button>
+              </div>
             </div>
             <div className="form-group">
               <label>Brew Ratio</label>
@@ -133,11 +155,19 @@ export default function NewShot() {
             </div>
             <div className="form-group">
               <label>Temperature (°C)</label>
-              <input type="number" step="0.5" min="80" max="100" value={form.temperature} onChange={(e) => set('temperature', e.target.value)} />
+              <div className="step-input">
+                <button type="button" className="step-btn" onClick={() => step('temperature', -1, 80, 100)}>−</button>
+                <input type="number" step="1" min="80" max="100" value={form.temperature} onChange={(e) => set('temperature', e.target.value)} />
+                <button type="button" className="step-btn" onClick={() => step('temperature', 1, 80, 100)}>+</button>
+              </div>
             </div>
             <div className="form-group">
               <label>Extraction Time (s)</label>
-              <input type="number" step="1" min="0" value={form.extractionTime} onChange={(e) => set('extractionTime', e.target.value)} />
+              <div className="step-input">
+                <button type="button" className="step-btn" onClick={() => step('extractionTime', -1, 0)}>−</button>
+                <input type="number" step="1" min="0" value={form.extractionTime} onChange={(e) => set('extractionTime', e.target.value)} />
+                <button type="button" className="step-btn" onClick={() => step('extractionTime', 1, 0)}>+</button>
+              </div>
             </div>
           </div>
           <div className="form-group form-group-inline">
