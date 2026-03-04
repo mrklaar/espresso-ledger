@@ -4,7 +4,7 @@ import ShotCard from '../components/ShotCard';
 import { Link } from 'react-router-dom';
 
 export default function ShotHistory() {
-  const { shots } = useShots();
+  const { shots, deleteShot } = useShots();
   const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState('date-desc');
   const [filterRating, setFilterRating] = useState(0);
@@ -105,7 +105,7 @@ export default function ShotHistory() {
       ) : (
         <div className="shot-list">
           {filtered.map((shot) => (
-            <ShotCard key={shot.id} shot={shot} />
+            <ShotCard key={shot.id} shot={shot} onDelete={deleteShot} />
           ))}
         </div>
       )}

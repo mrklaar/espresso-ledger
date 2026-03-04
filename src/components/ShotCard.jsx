@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import RatingStars from './RatingStars';
 
-export default function ShotCard({ shot, compact = false }) {
+export default function ShotCard({ shot, compact = false, onDelete }) {
   const ratio = shot.dose > 0 ? (shot.yield / shot.dose).toFixed(1) : '—';
   const dateStr = new Date(shot.date).toLocaleDateString('en-US', {
     month: 'short',
@@ -65,7 +65,21 @@ export default function ShotCard({ shot, compact = false }) {
 
       <div className="shot-card-footer">
         <time className="shot-card-date">{dateStr}</time>
-        <Link to={`/shot/${shot.id}`} className="btn btn-sm">View Details</Link>
+        <div className="shot-card-actions">
+          <Link to={`/shot/${shot.id}`} className="btn btn-sm">View</Link>
+          {onDelete && (
+            <>
+              <Link to={`/edit/${shot.id}`} className="btn btn-sm">Edit</Link>
+              <button
+                type="button"
+                className="btn btn-sm btn-danger"
+                onClick={() => window.confirm('Delete this shot?') && onDelete(shot.id)}
+              >
+                Delete
+              </button>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -18,6 +18,16 @@ export default function NewShot() {
 
   const isEditing = !!existingShot;
 
+  function copyLastShot() {
+    const last = [...shots].sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+    if (!last) return;
+    setForm({
+      ...last,
+      id: '',
+      date: new Date().toISOString().slice(0, 16),
+    });
+  }
+
   function set(field, value) {
     setForm((prev) => {
       const next = { ...prev, [field]: value };
@@ -51,7 +61,14 @@ export default function NewShot() {
 
   return (
     <div className="new-shot">
-      <h1>{isEditing ? 'Edit Shot' : 'Log New Shot'}</h1>
+      <div className="new-shot-header">
+        <h1>{isEditing ? 'Edit Shot' : 'Log New Shot'}</h1>
+        {!isEditing && shots.length > 0 && (
+          <button type="button" className="btn" onClick={copyLastShot}>
+            Copy Last Shot
+          </button>
+        )}
+      </div>
       <form onSubmit={handleSubmit} className="shot-form">
 
         {/* Bean Info */}

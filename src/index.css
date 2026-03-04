@@ -272,6 +272,7 @@ h2 { font-size: 1.25rem; font-weight: 600; color: var(--dark-roast); margin-bott
 }
 
 .shot-card-date { font-size: 0.8rem; color: var(--text-muted); }
+.shot-card-actions { display: flex; gap: 0.5rem; }
 
 /* ---- Rating Stars ---- */
 .rating-stars { display: inline-flex; gap: 2px; }
@@ -294,6 +295,8 @@ h2 { font-size: 1.25rem; font-weight: 600; color: var(--dark-roast); margin-bott
 .rating-stars-lg .star { font-size: 2rem; }
 
 /* ---- Forms ---- */
+.new-shot-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+.new-shot-header h1 { margin: 0; }
 .shot-form { display: flex; flex-direction: column; gap: 1.5rem; }
 
 fieldset {
